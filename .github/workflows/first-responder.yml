@@ -1,0 +1,22 @@
+name: First responder triage Test
+on:
+  workflow_dispatch:
+
+jobs:
+  first-responder-product:
+    name: First Responder GitHub Triage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get GitHub org team pings for accessibility-reviewers
+        # uses: jonrohan/first-responder@5cd7113bdd8ca247bd6ff6af42bf8c24861bad79
+        with:
+          token: ${{secrets.GH_TOKEN}}
+          team: "accessibility-reviewers"
+          org: "github"
+          ignore-repos: "github/github"
+          ignore-authors: "app/github-heaven, hubot"
+          ignore-team: "robots"
+          include-review-requests: "true"
+          since: "2022-06-01"
+          comment-body: |
+            :wave: This is just a test
