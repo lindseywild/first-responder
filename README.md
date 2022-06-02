@@ -1,6 +1,6 @@
 # First responder
 
-This action searches for team pings in issues and pull requests in an organization. The issues and pull requests are added to an organization project board. You can add a comment to the issue or pull request letting people know that your team will first respond soon.
+This action searches for team pings in issues and pull requests in an organization. The issues and pull requests are added to an organization project board, if desired. You can add a comment to the issue or pull request letting people know that your team will first respond soon.
 
 # Input parameters
 
