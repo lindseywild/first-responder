@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get GitHub org team pings for accessibility-reviewers
-        # uses: jonrohan/first-responder@5cd7113bdd8ca247bd6ff6af42bf8c24861bad79
+        uses: lindseywild/first-responder@main
         with:
           token: ${{secrets.GH_TOKEN}}
           team: "accessibility-reviewers"
