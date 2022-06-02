@@ -18,5 +18,7 @@ jobs:
           ignore-team: "robots"
           include-review-requests: "true"
           since: "2022-06-01"
+          project-board: 'https://github.com/orgs/github/projects/3300'
+          project-column: 15715051
           comment-body: |
-            :wave: This is just a test
+            :wave: This is just a test again
