@@ -8,8 +8,8 @@ async function run () {
   const fullTeamName = `${org}/${team}`
   const since = core.getInput('since') !== ''
     ? core.getInput('since') : '2020-01-01'
-  const projectBoard = core.getInput('project-board')
-  const columnId = parseInt(core.getInput('project-column'), 10)
+  const projectBoard = core.getInput('project-board') || null
+  const columnId = parseInt(core.getInput('project-column'), 10)  || null
   const ignoreTeam = core.getInput('ignore-team')
   const includeReviewRequests = core.getInput('include-review-requests')
   const body = core.getInput('comment-body')
@@ -23,7 +23,7 @@ async function run () {
     ? core.getInput('ignore-commenters').split(',').map(x => x.trim()) : []
   const octokit = new GitHub(token)
 
-  const projectInfo = await getProjectMetaData(projectBoard, org)
+  const projectInfo = projectBoard ? await getProjectMetaData(projectBoard, org) : null
 
   // Create a list of users to ignore in the search query
   let teamMembers = []
@@ -70,7 +70,10 @@ async function run () {
   for (const issue of issues) {
     let [, , , owner, repo, contentType, number] = issue.html_url.split('/')
     contentType = contentType === 'issues' ? 'Issue' : 'PullRequest'
-    await addProjectCard(octokit, owner, repo, number, contentType, columnId)
+
+    if (projectBoard && columnId) {
+      await addProjectCard(octokit, owner, repo, number, contentType, columnId)
+    }
 
     if (body !== '') {
       const comment = await octokit.issues.createComment({
@@ -132,9 +135,11 @@ async function buildExceptions (authors, commenters, since = '2019-01-01', proje
   })
 
   // Ignore issues already on the project board
-  const ref = projectBoard.repo !== undefined
-    ? `${projectBoard.owner}%2F${projectBoard.repo}` : projectBoard.owner
-  query = query.concat(`+-project%3A${ref}%2F${projectBoard.number}`)
+  if (projectBoard) {
+    const ref = projectBoard.repo !== undefined
+      ? `${projectBoard.owner}%2F${projectBoard.repo}` : projectBoard.owner
+    query = query.concat(`+-project%3A${ref}%2F${projectBoard.number}`)
+  }
 
   return query
 }
