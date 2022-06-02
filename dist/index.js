@@ -506,7 +506,7 @@ async function run () {
   const since = core.getInput('since') !== ''
     ? core.getInput('since') : '2020-01-01'
   const projectBoard = core.getInput('project-board') || null
-  const columnId = parseInt(core.getInput('project-column'), 10)  || null
+  const columnId = parseInt(core.getInput('project-column'), 10) || null
   const ignoreTeam = core.getInput('ignore-team')
   const includeReviewRequests = core.getInput('include-review-requests')
   const body = core.getInput('comment-body')
@@ -548,7 +548,7 @@ async function run () {
   // Get unique issues from the 2 results and combine them into single array
   let issues = {}
   if (includeReviewRequests === 'true') {
-    teamMentions.data.items.concat(includeReviewRequests === 'true' ? teamReviewRequests.data.items : []).forEach( i => {
+    teamMentions.data.items.concat(includeReviewRequests === 'true' ? teamReviewRequests.data.items : []).forEach(i => {
       // easy way to ensure uniq by key => val all the id
       issues[i.id] = i
     })
@@ -610,7 +610,7 @@ async function getTeamReviewRequests (octokit, org, team, authors, commenters, s
 }
 
 async function buildExceptions (authors, commenters, since = '2019-01-01', projectBoard, ignoreRepos, ignoreLabels) {
-  let query = ""
+  let query = ''
   for (const author of authors) {
     query = query.concat(`+-author%3A${author}`)
   }
